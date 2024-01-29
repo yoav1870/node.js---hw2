@@ -9,9 +9,9 @@ exports.planController = {
             data : await planRepository.find()
         };
         res.status(result.status);
-        res.json(result.data || result.message);
+        res.json( result.message || result.data );
     },
-    async getPlanById(req, res) {
+    async getPlan(req, res) {
         const {id} = req.params;
         const result = {
             status: 200,
@@ -33,6 +33,7 @@ exports.planController = {
     },
     async updatePlan(req, res) {
         const {body : plan , params : {id}} = req;
+        console.log(plan);
         const result = {
             status: 200,
             message: '',
