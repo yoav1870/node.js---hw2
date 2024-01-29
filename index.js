@@ -9,10 +9,6 @@ app.use(express.urlencoded({ extended: true }));
 const {planRouter} = require('./router/plan.router');
 const MongoStorage = require('./data/mongoStorage');
 
-
-
-
-
 app.use('/api/plans', planRouter);
 
 
