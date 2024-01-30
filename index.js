@@ -10,7 +10,6 @@ const {planRouter} = require('./router/plan.router');
 
 app.use('/api/plans', planRouter);
 
-
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
