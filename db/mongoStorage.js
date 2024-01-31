@@ -14,7 +14,11 @@ module.exports = class MongoStorage {
       .then(() => console.log(`connected to DB`))
       .catch((err) => console.log(`connection error: ${err}`));
   }
-  find() {
+  async find() {
+    const doesPlanExist = await this.Model.exists();
+    if (!doesPlanExist) {
+      throw new Error("There are no plans");
+    }
     return this.Model.find();
   }
   async retrieve(id) {
