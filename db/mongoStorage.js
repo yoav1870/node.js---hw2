@@ -27,7 +27,7 @@ module.exports = class MongoStorage {
     return this.Model.find({ id });
   }
   async create(data) {
-    const doesPlanExist = await this.Model.exists({ id : data.id });
+    const doesPlanExist = await this.Model.exists({ id: data.id });
     if (doesPlanExist) {
       throw new Error("Plan already exists");
     }
@@ -35,20 +35,18 @@ module.exports = class MongoStorage {
     // console.log(plan);
     plan.save();
   }
-  async delete(id){
+  async delete(id) {
     const doesPlanExist = await this.Model.exists({ id });
     if (!doesPlanExist) {
       throw new Error("Plan not found");
     }
-    return this.Model.deleteOne({id});
+    return this.Model.deleteOne({ id });
   }
-  async update(id,data){
+  async update(id, data) {
     const doesPlanExist = await this.Model.exists({ id });
     if (!doesPlanExist) {
       throw new Error("Plan not found");
     }
-    return this.Model.updateOne({id},data); 
+    return this.Model.updateOne({ id }, data);
   }
 };
-
-

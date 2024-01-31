@@ -1,4 +1,4 @@
-const MongoStorage = require('../data/mongoStorage');
+const MongoStorage = require('../db/mongoStorage');
 
 module.exports = class PlanRepository{
     constructor () {
