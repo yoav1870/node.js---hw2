@@ -2,7 +2,6 @@ const express = require("express");
 const { planRouter } = require("./router/plan.router");
 
 const app = express();
-module.exports = { app };
 const port = process.env.PORT || 3000;
 
 app.use(express.json());

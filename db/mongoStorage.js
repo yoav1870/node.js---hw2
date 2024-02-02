@@ -22,9 +22,7 @@ module.exports = class MongoStorage {
     return this.Model.find();
   }
   async retrieve(id) {
-    // console.log(id);
     const doesPlanExist = await this.Model.exists({ id });
-    // console.log(doesPlanExist);
     if (!doesPlanExist) {
       throw new Error("Plan not found");
     }
@@ -36,7 +34,6 @@ module.exports = class MongoStorage {
       throw new Error("Plan already exists");
     }
     const plan = new this.Model(data);
-    // console.log(plan);
     plan.save();
   }
   async delete(id) {

@@ -25,7 +25,6 @@ exports.planController = {
   async getPlan(req, res) {
     try {
       const { id } = req.params;
-      // console.log(id);
       const result = {
         status: 200,
         data: await planRepository.retrieve(id),
@@ -47,7 +46,9 @@ exports.planController = {
   async createPlan(req, res) {
     try {
       const { body } = req;
-      // console.log(body);
+      if (!body.id) {
+        throw new Error("Id is required");
+      }
       const result = {
         status: 201,
         message: "created",
@@ -56,7 +57,10 @@ exports.planController = {
       res.status(result.status);
       res.json(result.message);
     } catch (error) {
-      if (error.message === "Plan already exists") {
+      if (error.message === "Id is required") {
+        res.status(400);
+        res.json("Id is required");
+      } else if (error.message === "Plan already exists") {
         res.status(409);
         res.json("Plan already exists");
       } else {
