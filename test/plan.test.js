@@ -37,7 +37,10 @@ describe("GET / plans", () => {
 });
 describe("GET / plans/:id", () => {
   it("should return a plan", async () => {
-    const mockPlan = { id: 1, name: "Plan A" };
+    const mockPlan = [
+      { id: 1, name: "Plan A" },
+      { id: 2, name: "Plan B" },
+    ];
     PlanRepository.prototype.retrieve.mockResolvedValue(mockPlan);
 
     const res = await request(app).get("/api/plans/1");
