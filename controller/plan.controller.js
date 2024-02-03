@@ -25,6 +25,9 @@ exports.planController = {
   async getPlan(req, res) {
     try {
       const { id } = req.params;
+      if (isNaN(id) || id <= 0) {
+        throw new Error("Invalid id");
+      }
       const result = {
         status: 200,
         data: await planRepository.retrieve(id),
@@ -32,7 +35,10 @@ exports.planController = {
       res.status(result.status);
       res.json(result.data);
     } catch (error) {
-      if (error.message === "Plan not found") {
+      if (error.message === "Invalid id") {
+        res.status(400);
+        res.json("Invalid id");
+      } else if (error.message === "Plan not found") {
         res.status(404);
         res.json("Plan not found");
       } else {
@@ -77,6 +83,9 @@ exports.planController = {
         body: plan,
         params: { id },
       } = req;
+      if (isNaN(id) || id <= 0) {
+        throw new Error("Invalid id");
+      }
       const result = {
         status: 200,
         message: "updeated successfully plan with id: " + id + ".",
@@ -85,7 +94,10 @@ exports.planController = {
       res.status(result.status);
       res.json(result.message);
     } catch (error) {
-      if (error.message === "Plan not found") {
+      if (error.message === "Invalid id") {
+        res.status(400);
+        res.json("Invalid id");
+      } else if (error.message === "Plan not found") {
         res.status(404);
         res.json("Plan not found");
       } else {
@@ -99,6 +111,9 @@ exports.planController = {
   async deletePlan(req, res) {
     try {
       const { id } = req.params;
+      if (isNaN(id) || id <= 0) {
+        throw new Error("Invalid id");
+      }
       const result = {
         status: 200,
         message: "deleted successfully plan with id: " + id + ".",
@@ -107,7 +122,10 @@ exports.planController = {
       res.status(result.status);
       res.json(result.message);
     } catch (error) {
-      if (error.message === "Plan not found") {
+      if (error.message === "Invalid id") {
+        res.status(400);
+        res.json("Invalid id");
+      } else if (error.message === "Plan not found") {
         res.status(404);
         res.json("Plan not found");
       } else {
