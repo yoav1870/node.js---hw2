@@ -1,5 +1,4 @@
-const PlanRepository = require("../repositories/plan.repository");
-const planRepository = new PlanRepository();
+const { planRepository } = require("../repository/plan.repository");
 
 exports.planController = {
   async getAllPlans(req, res) {
@@ -8,6 +7,9 @@ exports.planController = {
         status: 200,
         data: await planRepository.find(),
       };
+      if (result.data.length === 0) {
+        throw new Error("There are no plans");
+      }
       res.status(result.status);
       res.json(result.data);
     } catch (error) {
@@ -32,6 +34,9 @@ exports.planController = {
         status: 200,
         data: await planRepository.retrieve(id),
       };
+      if (result.data.length === 0) {
+        throw new Error("Plan not found");
+      }
       res.status(result.status);
       res.json(result.data);
     } catch (error) {
@@ -54,6 +59,11 @@ exports.planController = {
       const { body } = req;
       if (!body.id) {
         throw new Error("Id is required");
+      }
+      const plans = await planRepository.find();
+      const planExists = plans.find((plan) => plan.id == body.id);
+      if (planExists) {
+        throw new Error("Plan already exists");
       }
       const result = {
         status: 201,
@@ -86,6 +96,11 @@ exports.planController = {
       if (isNaN(id) || id <= 0) {
         throw new Error("Invalid id");
       }
+      const plans = await planRepository.find();
+      const planExists = plans.find((plan) => plan.id == Number(id));
+      if (!planExists) {
+        throw new Error("Plan not found");
+      }
       const result = {
         status: 200,
         message: "updeated successfully plan with id: " + id + ".",
@@ -113,6 +128,11 @@ exports.planController = {
       const { id } = req.params;
       if (isNaN(id) || id <= 0) {
         throw new Error("Invalid id");
+      }
+      const plans = await planRepository.find();
+      const planExists = plans.find((plan) => plan.id == Number(id));
+      if (!planExists) {
+        throw new Error("Plan not found");
       }
       const result = {
         status: 200,
