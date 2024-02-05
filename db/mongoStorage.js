@@ -15,19 +15,19 @@ module.exports = class MongoStorage {
       .catch((err) => console.log(`connection error: ${err}`));
   }
   async find() {
-    return this.Model.find();
+    return await this.Model.find();
   }
   async retrieve(id) {
-    return this.Model.find({ id });
+    return await this.Model.find({ id });
   }
   async create(data) {
-    const plan = new this.Model(data);
+    const plan = await new this.Model(data);
     await plan.save();
   }
   async delete(id) {
-    return this.Model.deleteOne({ id });
+    return await this.Model.deleteOne({ id });
   }
   async update(id, data) {
-    return this.Model.updateOne({ id }, data);
+    return await this.Model.updateOne({ id }, data);
   }
 };
