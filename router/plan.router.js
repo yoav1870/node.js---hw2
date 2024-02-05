@@ -2,7 +2,6 @@ const { Router } = require("express");
 const { planController } = require("../controller/plan.controller");
 
 const planRouter = new Router();
-
 planRouter.get("/", planController.getAllPlans);
 planRouter.get("/:id", planController.getPlan);
 planRouter.post("/", planController.createPlan);

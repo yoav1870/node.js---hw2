@@ -185,7 +185,7 @@ describe("PUT /api/plans/:id", () => {
     );
   });
 });
-describe("OTHER /api/plans", () => {
+describe("OTHER errors /api/plans", () => {
   it("should return status 404 when the path is not found", async () => {
     const res = await request(app).get("/api");
     expect(res.status).toBe(404);
