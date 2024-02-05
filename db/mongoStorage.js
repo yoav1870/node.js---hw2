@@ -15,39 +15,19 @@ module.exports = class MongoStorage {
       .catch((err) => console.log(`connection error: ${err}`));
   }
   async find() {
-    // const doesPlanExist = await this.Model.exists();
-    // if (!doesPlanExist) {
-    //   throw new Error("There are no plans");
-    // }
     return this.Model.find();
   }
   async retrieve(id) {
-    // const doesPlanExist = await this.Model.exists({ id });
-    // if (!doesPlanExist) {
-    //   throw new Error("Plan not found");
-    // }
     return this.Model.find({ id });
   }
   async create(data) {
-    // const doesPlanExist = await this.Model.exists({ id: data.id });
-    // if (doesPlanExist) {
-    //   throw new Error("Plan already exists");
-    // }
     const plan = new this.Model(data);
-    plan.save();
+    await plan.save();
   }
   async delete(id) {
-    // const doesPlanExist = await this.Model.exists({ id });
-    // if (!doesPlanExist) {
-    //   throw new Error("Plan not found");
-    // }
     return this.Model.deleteOne({ id });
   }
   async update(id, data) {
-    // const doesPlanExist = await this.Model.exists({ id });
-    // if (!doesPlanExist) {
-    //   throw new Error("Plan not found");
-    // }
     return this.Model.updateOne({ id }, data);
   }
 };
