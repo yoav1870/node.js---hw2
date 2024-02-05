@@ -16,4 +16,4 @@ All tests were done using jest and supertest. you can find all the tests under t
 
 API reference
 
-Full documentation of the API calls can be seen at:
+Full documentation of the API calls can be seen at: https://documenter.getpostman.com/view/32136851/2s9Yyweywq
