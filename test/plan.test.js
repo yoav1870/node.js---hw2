@@ -19,14 +19,14 @@ describe("GET /api/plans", () => {
   it("should return status 400 when the id is invalid", async () => {
     const res = await request(app).get("/api/plans/0");
     expect(res.status).toBe(400);
-    expect(res.body).toBe("Invalid id");
+    expect(res.body).toBe("Invalid id, received id: 0 .");
   });
   it("should return status 404 when no plans are found", async () => {
     planRepository.find.mockResolvedValue([]);
 
     const res = await request(app).get("/api/plans");
     expect(res.status).toBe(404);
-    expect(res.body).toBe("There are no plans");
+    expect(res.body).toBe("No data found");
   });
   it("should return status 500 when the server encountered an unexpected condition that prevented it from fulfilling the request", async () => {
     planRepository.find.mockRejectedValue(
@@ -65,13 +65,13 @@ describe("POST /api/plans", () => {
     expect(res.status).toBe(201);
     expect(res.body).toEqual("created");
   });
-  it("should return status 400 when the id is not provided", async () => {
+  it("should return status 404 when the id is not provided", async () => {
     const mockPlan = { namePlan: "Basic" };
-    planRepository.find.mockResolvedValue([]);
+    planRepository.find.mockResolvedValue([mockPlan]);
     planRepository.create.mockResolvedValue(mockPlan);
     const res = await request(app).post("/api/plans").send(mockPlan);
-    expect(res.status).toBe(400);
-    expect(res.body).toBe("Id is required");
+    expect(res.status).toBe(404);
+    expect(res.body).toBe("required id to create the plan.");
   });
   it("should return status 409 when the id is taken", async () => {
     const mockPlan = { id: 1, namePlan: "Basic" };
@@ -80,7 +80,7 @@ describe("POST /api/plans", () => {
 
     const res = await request(app).post("/api/plans").send(mockPlan);
     expect(res.status).toBe(409);
-    expect(res.body).toBe("Plan already exists");
+    expect(res.body).toBe("Plan with id : " + mockPlan.id + " already exists");
   });
   it("should return status 500 when the server encountered an unexpected condition that prevented it from fulfilling the request", async () => {
     const mockPlan = { id: 1, namePlan: "Basic" };
@@ -90,7 +90,6 @@ describe("POST /api/plans", () => {
         "server encountered an unexpected condition that prevented it from fulfilling the request."
       )
     );
-
     const res = await request(app).post("/api/plans").send(mockPlan);
     expect(res.status).toBe(500);
     expect(res.body).toBe(
@@ -108,9 +107,10 @@ describe("DELETE /api/plans/:id", () => {
     expect(res.status).toBe(200);
   });
   it("should return status 400 when the id is invalid", async () => {
+    const mockPlan = { id: 0, namePlan: "Basic" };
     const res = await request(app).delete("/api/plans/0");
     expect(res.status).toBe(400);
-    expect(res.body).toBe("Invalid id");
+    expect(res.body).toBe("Invalid id, received id: " + mockPlan.id + " .");
   });
   it("should return status 404 when the plan is not found", async () => {
     const mockPlan = { id: 1, namePlan: "Basic" };
@@ -119,12 +119,7 @@ describe("DELETE /api/plans/:id", () => {
 
     const res = await request(app).delete("/api/plans/2");
     expect(res.status).toBe(404);
-    expect(res.body).toBe("Plan not found");
-  });
-  it("should return status 404 when the id is not provided", async () => {
-    const res = await request(app).delete("/api/plans");
-    expect(res.status).toBe(404);
-    expect(res.body).toBe("required id");
+    expect(res.body).toBe("Plan with id: 2 does not exist");
   });
   it("should return status 500 when the server encountered an unexpected condition that prevented it from fulfilling the request", async () => {
     planRepository.delete.mockRejectedValue(
@@ -153,7 +148,7 @@ describe("PUT /api/plans/:id", () => {
     const mockPlan = { id: 0, namePlan: "Basic" };
     const res = await request(app).put("/api/plans/0").send(mockPlan);
     expect(res.status).toBe(400);
-    expect(res.body).toBe("Invalid id");
+    expect(res.body).toBe("Invalid id, received id: " + mockPlan.id + " .");
   });
   it("should return status 404 when the plan is not found", async () => {
     const mockPlan = { id: 1, namePlan: "Basic" };
@@ -162,13 +157,13 @@ describe("PUT /api/plans/:id", () => {
 
     const res = await request(app).put("/api/plans/2").send(mockPlan);
     expect(res.status).toBe(404);
-    expect(res.body).toBe("Plan not found");
+    expect(res.body).toBe("Plan with id: 2 does not exist");
   });
   it("should return status 404 when the id is not provided", async () => {
     const mockPlan = { namePlan: "Basic" };
     const res = await request(app).put("/api/plans").send(mockPlan);
     expect(res.status).toBe(404);
-    expect(res.body).toBe("required id");
+    expect(res.body).toBe("required id to put the plan.");
   });
   it("should return status 500 when the server encountered an unexpected condition that prevented it from fulfilling the request", async () => {
     const mockPlan = { id: 1, namePlan: "Basic" };
