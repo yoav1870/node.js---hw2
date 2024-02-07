@@ -11,7 +11,11 @@ module.exports = class MongoStorage {
     const connectionUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`;
     mongoose
       .connect(connectionUrl)
-      .then(() => console.log(`connected to DB`))
+      .then(() => {
+        if (process.env.NODE_ENV !== "test") {
+          console.log("Database connected");
+        }
+      })
       .catch((err) => console.log(`connection error: ${err}`));
   }
   async find() {
