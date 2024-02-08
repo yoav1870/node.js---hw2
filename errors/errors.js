@@ -8,7 +8,7 @@ class ServerError extends Error {
   }
 }
 class NotFoundUrlError extends Error {
-  constructor(url) {
+  constructor() {
     super("Not Found");
     this.status = 404;
     this.name = "NotFoundUrlError";

@@ -40,18 +40,6 @@ exports.planController = {
       res.json(result.data);
     } catch (error) {
       res.status(error?.status || 500).json(error.message);
-      // if (error.message === "Invalid id") {
-      //   res.status(400);
-      //   res.json("Invalid id");
-      // } else if (error.message === "Plan not found") {
-      //   res.status(404);
-      //   res.json("Plan not found");
-      // } else {
-      //   res.status(500);
-      //   res.json(
-      //     "server encountered an unexpected condition that prevented it from fulfilling the request."
-      //   );
-      // }
     }
   },
   async createPlan(req, res) {

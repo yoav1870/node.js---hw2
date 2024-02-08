@@ -21,7 +21,7 @@ app.use("/api/plans", planRouter);
 app.use((req, res, next) => {
   next(new NotFoundUrlError());
 });
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.status(err?.status || 500).json(err.message);
 });
 
