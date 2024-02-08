@@ -21,10 +21,9 @@ app.use("/api/plans", planRouter);
 app.use((req, res, next) => {
   next(new NotFoundUrlError());
 });
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   res.status(err?.status || 500).json(err.message);
 });
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
